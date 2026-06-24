@@ -2,11 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 import cv2
-from typing import Dict, Optional, Tuple, TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from .classifier import ClassificationResult
-    from .palettes import SeasonPalette
+from typing import Dict, Optional, Tuple
 
 RGB = Tuple[int, int, int]
 
