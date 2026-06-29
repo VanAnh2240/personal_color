@@ -210,15 +210,6 @@ def run_standard(model_name, epochs, device, resume=None):
         best_miou = state.get("best_miou", 0.0)
         print(f"  Resumed from epoch {start_ep - 1}, best mIoU={best_miou:.4f}")
 
-    #log_path = os.path.join(RESULT_DIR, f"{model_name}_train_log.csv")
-    #mode = "a" if (resume and os.path.exists(log_path)) else "w"
-
-    # with open(log_path, mode, newline="") as f:
-    #     w = csv.writer(f)
-    #     if mode == "w":
-    #         w.writerow(["epoch", "train_loss", "monitor_loss",
-    #                     "monitor_mIoU", "lr"])
-
     for ep in range(start_ep, epochs + 1):
         t0      = time.time()
         tr_loss = train_one(model, train_dl, opt, crit, device, scaler)
@@ -230,8 +221,6 @@ def run_standard(model_name, epochs, device, resume=None):
         log_epoch(model_name, ep, epochs,
                   tr_loss, mo_loss, mo_miou, lr,
                   time.time() - t0, best_miou)
-        # w.writerow([ep, f"{tr_loss:.5f}", f"{mo_loss:.5f}",
-        #             f"{mo_miou:.5f}", f"{lr:.2e}"])
 
         best_miou = save_best(
             model, ckpt_path, mo_miou, best_miou,
@@ -252,17 +241,7 @@ def run_standard(model_name, epochs, device, resume=None):
 
     print(f"\nTraining complete.")
     print(f"  Best monitor mIoU : {best_miou:.4f}")
-    #print(f"  Log               → {log_path}")
     print(f"  Best checkpoint   → {ckpt_path}")
-
-    # try:
-    #     from src.utils import plot_training_curves
-    #     # plot_training_curves(
-    #     #     log_path,
-    #     #     os.path.join(RESULT_DIR, f"{model_name}_curves.png"))
-    # except Exception:
-    #     pass
-
 
 def main():
     p = argparse.ArgumentParser(
@@ -272,9 +251,7 @@ def main():
     p.add_argument("--epochs", default=NUM_EPOCHS, type=int)
     p.add_argument("--resume", default=None)
     p.add_argument("--device", default="auto")
-    p.add_argument("--lr",     default=LR, type=float,
-                   help=f"Base learning rate (default {LR}). "
-                        f"ClipUNet encoder sẽ dùng lr/10 tự động.")
+    p.add_argument("--lr",     default=LR, type=float)
     args = p.parse_args()
 
     seed_everything()
@@ -293,8 +270,7 @@ def main():
     print(f"  Model      : {args.model}")
     print(f"  Device     : {device}")
     print(f"  Epochs     : {args.epochs}")
-    print(f"  Base LR    : {LR:.1e}  "
-          f"(encoder LR = {LR*0.1:.1e} for clipunet)")
+    print(f"  Base LR    : {LR:.1e}  ")
     print(f"  Batch size : {BATCH_SIZE}")
     print(f"  Class weights: ON (inverse-frequency)")
     print(f"  Early stop : patience=15")
