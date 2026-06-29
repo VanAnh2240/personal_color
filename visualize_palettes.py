@@ -1,7 +1,8 @@
-# File: visualize_palettes.py
-
 from PIL import Image, ImageDraw
+import os
+
 from classification.palettes import SPRING, SUMMER, AUTUMN, WINTER
+
 
 def create_palette_image(
     colors,
@@ -9,12 +10,8 @@ def create_palette_image(
     block_width=80,
     height=80,
     margin=10,
-    bg_color=(240, 240, 240)
+    bg_color=(240, 240, 240),
 ):
-    """
-    Vẽ palette dạng thanh ngang.
-    """
-
     width = len(colors) * block_width + 2 * margin
 
     img = Image.new("RGB", (width, height), bg_color)
@@ -30,6 +27,7 @@ def create_palette_image(
 
 
 if __name__ == "__main__":
+    os.makedirs("palette", exist_ok=True)
 
     palettes = [
         SPRING,
@@ -41,5 +39,5 @@ if __name__ == "__main__":
     for palette in palettes:
         create_palette_image(
             palette.colors,
-            f"{palette.name.lower()}_palette.png"
+            os.path.join("palette", f"{palette.name.lower()}_palette.png"),
         )

@@ -4,7 +4,6 @@ config.py
 
 import os
 
-# Paths
 BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR   = os.path.join(BASE_DIR, "data")
 RAW_DIR    = os.path.join(DATA_DIR, "raw")
@@ -60,7 +59,7 @@ SEED          = 42
 K_FOLDS       = 3           
 
 
-ACTIVE_MODEL  = "clipunet"
+ACTIVE_MODEL  = "deeplab"
 DEEPLAB_BACKBONE     = "resnet50"
 DEEPLAB_OUTPUT_STRIDE = 16
 
