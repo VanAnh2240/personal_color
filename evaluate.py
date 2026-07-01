@@ -35,7 +35,6 @@ def build_model(model_name: str, device: torch.device):
         print("Running with random weights (for debugging only).")
     else:
         state = torch.load(ckpt, map_location=device)
-        # Support both plain state-dict and wrapped checkpoints
         if isinstance(state, dict) and "model" in state:
             state = state["model"]
         model.load_state_dict(state)

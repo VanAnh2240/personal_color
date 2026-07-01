@@ -55,7 +55,7 @@ LR            = 1e-4
 WEIGHT_DECAY  = 1e-4
 SCHEDULER     = "cosine"     
 NUM_WORKERS   = 4
-SEED          = 42     
+SEED          = 42        
 
 
 ACTIVE_MODEL  = "deeplab"
